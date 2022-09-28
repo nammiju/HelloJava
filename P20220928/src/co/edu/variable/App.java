@@ -42,5 +42,9 @@ public class App {
 			}
 		}
 		System.out.println("100을 넘어서는 시점의 sum = " + sum);
+		
+		
+		System.out.println("최종커밋하기");
 	}
+	
 }
