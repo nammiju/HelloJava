@@ -24,10 +24,10 @@ public class WhileBankApp {
 				int input = scn.nextInt();
 
 				for (int i = 0; i < banks.length; i++) {
-					if (banks[i] != null && banks[i].accNo.equals(accNo)) {
-						banks[i].balance = banks[i].balance + input;
+					if (banks[i] != null && banks[i].getAccno().equals(accNo)) {
+						banks[i].setBalance(banks[i].getBalance() + input);
 						System.out.println(
-								"예금주: " + banks[i].owner + " " + input + "원이 입금되었습니다. 잔액: " + banks[i].balance);
+								"예금주: " + banks[i].getOwner() + " " + input + "원이 입금되었습니다. 잔액: " + banks[i].getBalance());
 					}
 				}
 			} else if (menu == 2) {
@@ -36,22 +36,24 @@ public class WhileBankApp {
 				System.out.println("출금할 금액을 입력하세요. >>> ");
 				int output = scn.nextInt();
 
-				for (int i = 0; i < banks.length; i++) {
-					if (banks[i] != null && banks[i].accNo.equals(accNo) && output > banks[i].balance) {
-						System.out.println("잔고에 돈이 부족합니다.");
-						break;
-					} else if (banks[i] != null && banks[i].accNo.equals(accNo)) {
-						banks[i].balance = banks[i].balance - output;
-						System.out.println(
-								"예금주: " + banks[i].owner + " " + output + "원이 출금되었습니다. 잔액: " + banks[i].balance);
+				for (int i = 0; i < banks.length; i++) {  //if문 안에  if문 넣어서 가로로 조금 더 간결하게 수정함
+					if (banks[i] != null && banks[i].getAccno().equals(accNo)) {
+						if (output > banks[i].getBalance()) {
+							System.out.println("잔고에 돈이 부족합니다.");
+							break;
+						} else {
+							banks[i].setBalance(banks[i].getBalance() - output);
+							System.out.println(
+									"예금주: " + banks[i].getOwner() + " " + output + "원이 출금되었습니다. 잔액: " + banks[i].getBalance());
+						}
 					}
 				}
 			} else if (menu == 3) {
 				System.out.println("조회할 계좌번호를 입력하세요. >>> ");
 				String accNo = scn.nextLine();
 				for (int i = 0; i < banks.length; i++) {
-					if (banks[i] != null && banks[i].accNo.equals(accNo)) {
-						System.out.println("예금주: " + banks[i].owner + " 잔액: " + banks[i].balance);
+					if (banks[i] != null && banks[i].getAccno().equals(accNo)) {
+						System.out.println("예금주: " + banks[i].getOwner() + " 잔액: " + banks[i].getBalance());
 					}
 				}
 			} else if (menu == 4) {
@@ -65,8 +67,8 @@ public class WhileBankApp {
 				String owner = scn.nextLine();
 
 				Account acc = new Account(); // 인스턴스 생성.
-				acc.accNo = accNo;
-				acc.owner = owner;
+				acc.setAccno(accNo);
+				acc.setOwner(owner);
 
 				for (int i = 0; i < banks.length; i++) {
 					if (banks[i] == null) {
