@@ -9,10 +9,10 @@ public class BoardDAO extends DAO {
 //	1. 글등록 - 글번호, 글제목, 글내용, 작성자, 작성일시, 읽은횟수(게시글 읽으면 자동증가) 
 	public void create(Board bd) {
 		String sql = "insert into board (board_num, board_title, board_content, board_writer)\r\n" //
-				+ "values(" + bd.getBoardNum()//
+				+ "values ( " + bd.getBoardNum()//
 				+ ", '" + bd.getBoardTitle()//
-				+ ", '" + bd.getBoardContent()//
-				+ ", '" + bd.getBoardWriter() + "')";
+				+ "', '" + bd.getBoardContent()//
+				+ "', '" + bd.getBoardWriter() + "')";
 		conn = getConnect();
 		try {
 			stmt = conn.createStatement();
@@ -28,8 +28,8 @@ public class BoardDAO extends DAO {
 //	2. 글수정 - 글번호 넣으면 글내용 - 작성일시 자동 변경
 	public void update(Board bd) {
 		String sql = "update board \r\n"//
-				+ "set board_content = ? "//
-				+ "creation_date = sysdate"//
+				+ "set board_content = ?, "//
+				+ "creation_date = sysdate "//
 				+ "where board_num = ?";
 		conn = getConnect();
 		try {
@@ -75,8 +75,8 @@ public class BoardDAO extends DAO {
 						, rs.getString("board_title") //
 						, rs.getString("board_content") //
 						, rs.getString("board_writer")//
-						, rs.getString("date")//
-						, rs.getInt(0)));
+						, rs.getString("creation_date")//
+						, rs.getInt("cnt")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,7 +89,7 @@ public class BoardDAO extends DAO {
 //	5. 상세조회 - 글번호, 글제목, 글내용, 작성자, 작성일시, 읽은횟수
 	public Board getbd(int boardNum) {
 		conn = getConnect();
-		Board bd = null;
+		Board getBoard = null;
 		String sql = "select * from board where board_num = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -97,11 +97,11 @@ public class BoardDAO extends DAO {
 
 			rs = psmt.executeQuery();
 			if (rs.next()) {
-				bd = new Board(rs.getInt("board_num")//
+				getBoard = new Board(rs.getInt("board_num")//
 						, rs.getString("board_title") //
 						, rs.getString("board_content") //
 						, rs.getString("board_writer") //
-						, rs.getString("date")//
+						, rs.getString("creation_date")//
 						, rs.getInt("cnt")//
 				);
 			}
@@ -111,7 +111,7 @@ public class BoardDAO extends DAO {
 		} finally {
 			disconnect();
 		}
-		return bd;
+		return getBoard;
 	}
 
 }

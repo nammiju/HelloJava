@@ -50,8 +50,8 @@ public class EmployeeDAO extends DAO {
 
 	// 입력.
 	public void insert(Employee emp) {
-		String sql = "insert into empl (employee_id, last_name, email, hire_date, job_id)\r\n" + "values ( "
-				+ emp.getEmployeeId() //
+		String sql = "insert into empl (employee_id, last_name, email, hire_date, job_id)\r\n" //
+				+ "values ( " + emp.getEmployeeId() //
 				+ " , '" + emp.getLastName() //
 				+ "', '" + emp.getEmail() //
 				+ "', '" + emp.getHireDate() //
@@ -85,7 +85,7 @@ public class EmployeeDAO extends DAO {
 						, rs.getString("job_id") //
 				));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -102,7 +102,7 @@ public class EmployeeDAO extends DAO {
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, empId);
-			
+
 			rs = psmt.executeQuery();
 			if (rs.next()) {
 				emp = new Employee(rs.getInt("employee_id") //
@@ -112,7 +112,7 @@ public class EmployeeDAO extends DAO {
 						, rs.getString("job_id") //
 				);
 			}
-			
+
 			System.out.println(empId + " 조회됨.");
 		} catch (SQLException e) {
 			e.printStackTrace();

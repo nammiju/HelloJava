@@ -3,8 +3,6 @@ package co.edu.board;
 import java.util.List;
 import java.util.Scanner;
 
-import co.edu.jdbc.Employee;
-
 // main메소드 담은 클래스
 public class BoardApp {
 	public static void main(String[] args) {
@@ -28,8 +26,8 @@ public class BoardApp {
 				String writing = scn.nextLine();
 				String[] writings = null;
 				writings = writing.split(" ");
-				bd = new Board(Integer.parseInt(writings[0]), writings[1], writings[2], writings[3], bd.getDate(),
-						bd.getCnt());
+				bd = new Board(Integer.parseInt(writings[0]), writings[1], writings[2], writings[3], null,
+						0);
 				dao.create(bd);
 
 			} else if (menu == 2) {
@@ -39,7 +37,7 @@ public class BoardApp {
 				System.out.println("수정할 내용>>");
 				String content = scn.nextLine();
 
-				bd = new Board(num, null, content, null, null, null);
+				bd = new Board(num, null, content, null, null, 0);
 
 				dao.update(bd);
 			} else if (menu == 3) {
@@ -50,8 +48,8 @@ public class BoardApp {
 
 			} else if (menu == 4) {
 				System.out.println("===글목록보기===");
-				List<Board> board = dao.search();
-				for (Board board1 : board) {
+				List<Board> boardList = dao.search();
+				for (Board board1 : boardList) {
 //					4. 글목록보기 - 글번호, 글제목, 작성자, 작성일시
 					System.out.println(
 							board1.getBoardNum() + board1.getBoardTitle() + board1.getBoardWriter() + board1.getDate());
