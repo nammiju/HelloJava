@@ -17,6 +17,7 @@ public class BoardDAO extends DAO {
 		try {
 			stmt = conn.createStatement();
 			int r = stmt.executeUpdate(sql);
+
 			System.out.println(bd.getBoardNum() + "번 글 " + r + "건이 등록되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -55,7 +56,6 @@ public class BoardDAO extends DAO {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, boardNum);
 			psmt.executeUpdate();
-			System.out.println(boardNum + "번 글이 삭제되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -104,8 +104,8 @@ public class BoardDAO extends DAO {
 						, rs.getString("creation_date")//
 						, rs.getInt("cnt")//
 				);
-			}
-			System.out.println(boardNum + "번 글이 조회되었습니다.");
+				}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -114,4 +114,89 @@ public class BoardDAO extends DAO {
 		return getBoard;
 	}
 
+	// 방문횟수
+	public void cnt(int bNum) {
+		String sql = "update board set cnt=cnt+1 where  board_num = ?";//
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, bNum);
+			psmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+
+	}
+
+	// 로그인
+	public int login(String id, String pwd) {
+		String sql = "select * from users where id = ?";//
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if (rs == null) {
+				return -1; // 아이디가 없을때
+			} else if (rs.next() && rs.getString("passwd").equals(pwd)) {
+//				System.out.println("로그인 성공");
+				return 0; // 아이디 비밀번호 다 일치할떄
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return -2; // 아이디는 맞고 비번은 틀릴때
+	}
+
+	// 댓글작성
+	public void reply(Reply re) {
+		conn = getConnect();
+		String sql = "insert into reply (rep_seq, board_num, rep_content, rep_writer)\r\n"
+				+ " values(reply_seq.nextval, ?, ?, ?)";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, re.getBoardNum());
+			psmt.setString(2, re.getRepContent());
+			psmt.setString(3, re.getRepWriter());
+			int r = psmt.executeUpdate();
+
+			System.out.println(re.getBoardNum() + "번 글에 댓글 " + r + "건이 등록되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+
+	}
+
+	// 댓글조회
+	public List<Reply> searchReply(int boardNum) {
+		conn = getConnect();
+		List<Reply> reply = new ArrayList<Reply>();
+		String sql = "select * from reply where board_num = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, boardNum);
+
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				reply.add(new Reply(rs.getInt("rep_seq")//
+						, rs.getInt("board_num") //
+						, rs.getString("rep_content") //
+						, rs.getString("rep_writer") //
+						, rs.getString("creation_date")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return reply;
+	}
 }
