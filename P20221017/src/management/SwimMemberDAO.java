@@ -8,7 +8,7 @@ public class SwimMemberDAO extends DAO {
 // 1.회원등록(이름, 나이, 성별, 연락처, 강좌코드)받고 회원코드는 자동생성이니까 0값 넣기?
 	public void insert(SwimMember sm) {
 		String sql = "insert into members (mem_code, mem_name, mem_birth, "//
-				+ "mem_gender, mem_phone, class_code, date) \r\n"//
+				+ "mem_gender, mem_phone, class_code, creation_date) \r\n"//
 				+ "values (?, ?, ? ,?,?,?," + "sysdate)";
 		conn = getConnect();
 		try {
@@ -18,7 +18,7 @@ public class SwimMemberDAO extends DAO {
 			psmt.setString(3, sm.getGender()); // 성별
 			psmt.setString(4, sm.getMemberPhone()); // 연락처
 			psmt.setInt(5, sm.getClassCode()); // 강좌코드
-			psmt.setString(6, sm.getDate());// 등록일
+			psmt.setString(6, sm.getDates());// 등록일
 
 			System.out.println(sm.getMemberName() + " 회원이 등록되었습니다.");
 		} catch (SQLException e) {
@@ -81,7 +81,7 @@ public class SwimMemberDAO extends DAO {
 						, rs.getString("mem_birth") //
 						, rs.getString("mem_gender") //
 						, rs.getString("mem_phone") //
-						, rs.getInt("class_code"), rs.getString("date")));
+						, rs.getInt("class_code"), rs.getString("creation_date")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -92,7 +92,31 @@ public class SwimMemberDAO extends DAO {
 	}
 
 // 5.회원검색(목록에서 이름이나 회원코드로 특정 회원 검색)
-	public SwimMember search(String keyword) {
-		
+	public SwimMember search(int code, String name) {
+		conn = getConnect();
+		SwimMember getSm = null;
+		String sql = "select * from members\r\n" //
+				+ "	where mem_code = ? or  mem_name = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, code);
+			psmt.setString(2, name);
+			
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				getSm = new SwimMember(rs.getInt("mem_code")//
+						, rs.getString("mem_name") //
+						, rs.getString("mem_birth") //
+						, rs.getString("mem_gender") //
+						, rs.getString("mem_phone") //
+						, rs.getInt("class_code"), rs.getString("creation_date"));
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return getSm;
+
 	}
 }

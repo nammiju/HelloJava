@@ -14,12 +14,13 @@ public class SwimManagementApp {
 		boolean check = false;
 		while (!check) { // 로그인 시작
 			System.out.println("로그인하세요.");
-			System.out.print("아이디 입력>>>  ");
+			System.out.print("아이디 입력>>> ");
 			String id = scn.nextLine();
-			System.out.print("패스워드 입력>>>  ");
+			System.out.print("패스워드 입력>>> ");
 			String pw = scn.nextLine();
 
 			scDao.login(id, pw); // 로그인
+			
 			if (scDao.login(id, pw) == 0) {
 				System.out.println(id + " 계정 로그인 성공");
 				check = true;
@@ -140,6 +141,18 @@ public class SwimManagementApp {
 
 						} else if (menuB == 5) {
 							System.out.println("===회원검색===");
+							System.out.println("검색할 회원코드 또는 회원이름 입력하기>> ");
+							String smInfo = scn.nextLine();
+							String[] smInfos = null;
+							smInfos = smInfo.split(" ");
+							
+							if(smInfos instanceof int) {
+								
+							}
+									
+//									Integer.parseInt(scn.nextLine());
+						
+							
 							
 						} else if (menuB == 9) {
 							System.out.println("회원관리를 종료합니다.");

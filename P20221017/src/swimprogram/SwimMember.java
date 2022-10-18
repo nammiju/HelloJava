@@ -1,24 +1,21 @@
-package management;
+package swimprogram;
 
-// 회원 정보
 public class SwimMember {
 	private int memberCode;
 	private String memberName;
 	private String memberBirth;
 	private String gender;
 	private String memberPhone;
-	private int classCode;
-	private String dates;
-
+	private String creDates;
+	
 	public SwimMember(int memberCode, String memberName, String memberBirth, String gender,
-			String memberPhone,int classCode, String dates) {
+			String memberPhone, String creDates) {
 		this.memberCode = memberCode;
 		this.memberName = memberName;
 		this.memberBirth = memberBirth;
 		this.gender = gender;
 		this.memberPhone = memberPhone;
-		this.classCode = classCode;
-		this.dates = dates;
+		this.creDates = creDates;
 	}
 
 	public int getMemberCode() {
@@ -27,14 +24,6 @@ public class SwimMember {
 
 	public void setMemberCode(int memberCode) {
 		this.memberCode = memberCode;
-	}
-
-	public int getClassCode() {
-		return classCode;
-	}
-
-	public void setClassCode(int classCode) {
-		this.classCode = classCode;
 	}
 
 	public String getMemberName() {
@@ -69,17 +58,13 @@ public class SwimMember {
 		this.memberPhone = memberPhone;
 	}
 
-	public String getDates() {
-		return dates;
+	public String getCreDates() {
+		return creDates;
 	}
 
-	public void setDates(String dates) {
-		this.dates = dates;
+	public void setCreDates(String creDates) {
+		this.creDates = creDates;
 	}
-
-	@Override
-	public String toString() {
-		return "회원코드: " + memberCode + ", 회원이름: " + memberName + ", 생년월일: " + memberBirth //
-				+ "수강강좌" + classCode + ", 성별: " + gender + ", 연락처: " + memberPhone + ", 등록일: " + dates;
-	}
+	
+	
 }
