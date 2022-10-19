@@ -54,9 +54,9 @@ public class SwimManagementApp {
 							System.out.println("===강좌수정===");
 							System.out.println("수정할 강좌코드 입력하기>> ");
 							int num = Integer.parseInt(scn.nextLine());
-							
+
 							List<SwimClass> list = scDao.list(new SwimClass(num, null, 0, 0));
-							
+
 							if (list.size() != 0) {
 								System.out.println("수정할 강사코드 입력하기>> ");
 								int Tcode = Integer.parseInt(scn.nextLine());
@@ -114,8 +114,10 @@ public class SwimManagementApp {
 							System.out.println("수정할 회원코드 입력하기>> ");
 							int num = Integer.parseInt(scn.nextLine());
 
-							if (sm.getMemberCode() == num) {
-								System.out.println("수정할 연락처>>");
+							List<SwimMember> smList = smDao.list(new SwimMember(num, null, null, null, null, null));
+							
+							if (smList.size() != 0) {
+								System.out.println("수정할 연락처 입력하기>>");
 								String phone = scn.nextLine();
 
 								sm = new SwimMember(num, null, null, null, phone, null);
