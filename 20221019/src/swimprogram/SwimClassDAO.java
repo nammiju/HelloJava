@@ -8,16 +8,16 @@ public class SwimClassDAO extends DAO {
 // 강좌등록(강좌코드, 강좌명, 강사명, 인원)
 	public void insert(SwimClass sc) {
 		conn = getConnect();
-		String sql = "insert into swimclass (class_code, class_name) \r\n"//
-				+ "values (cla_seq.nextval, ?)";
+		String sql = "insert into swimclass (class_code, class_name, teacher_code) \r\n"//
+				+ "values (cla_seq.nextval, ?, ?)";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, sc.getClassName());
-//			psmt.setString(2, sc.getClassName());
-//			psmt.setInt(3, sc.getMemberNum());
+			psmt.setInt(2, sc.getTeacherCode());
 
 			psmt.executeUpdate();
-			System.out.println(sc.getClassName() + " 강좌가 개설되었습니다.");
+			System.out.println("<" + sc.getClassName() + ">" + "강좌가 개설되었습니다.");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -30,14 +30,18 @@ public class SwimClassDAO extends DAO {
 		conn = getConnect();
 		String sql = "update swimclass \r\n"//
 				+ "set teacher_code = ? "//
+
+				+ ", class_name = ? " //
 				+ "where class_code = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, sc.getTeacherCode());
-			psmt.setInt(2, sc.getClassCode());
+
+			psmt.setString(2, sc.getClassName());
+			psmt.setInt(3, sc.getClassCode());
 
 			psmt.executeUpdate();
-			System.out.println(sc.getClassCode() + " 강좌가 " + sc.getTeacherCode() + " 강사로 변경되었습니다.");
+			System.out.println("<" + sc.getClassCode() + ">" + " 강좌가 " + sc.getTeacherCode() + " 강사로 변경되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -53,8 +57,7 @@ public class SwimClassDAO extends DAO {
 		String sql = "select * from swimclass" //
 				+ " where 	class_code = decode(?, 0, class_code, ?) "// ?값이 0이면 전체 출력하고 0이 아니면 ?값만 출력
 				+ " and		class_name like '%'||?||'%' "//
-				+ " and 	nvl(teacher_code, 0) = decode(?, 0, nvl(teacher_code, 0), ?)"
-				+ " order by class_code";
+				+ " and 	nvl(teacher_code, 0) = decode(?, 0, nvl(teacher_code, 0), ?)" + " order by class_code";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, sc.getClassCode());

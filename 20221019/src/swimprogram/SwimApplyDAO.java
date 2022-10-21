@@ -27,21 +27,79 @@ public class SwimApplyDAO extends DAO {
 	}
 
 //수강등록
-	public void insert(SwimApply sa) {
+	public int insert(SwimApply sa) {
+		int num = 0;
 		conn = getConnect();
-		String sql = "insert into apply(apply_code, class_code, mem_code) \r\n" + "values (apply_seq.nextval, ?, ?)";
+		String sql1 = "select * from apply where mem_code= ?"; 
+		String sql2 = "select count(*) count\r\n"
+				+ "from apply "
+				+ "where class_code = ?";
+		String sql3 = "select * from swimclass\r\n"
+				+ "where class_code = ?";
+		String sql4 = "insert into apply(apply_code, class_code, mem_code) \r\n" //
+				+ "values (apply_seq.nextval, ?, ?)";
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, sa.getClassCode());
-			psmt.setInt(2, sa.getMemberCode());
+			psmt = conn.prepareStatement(sql1);
+			psmt.setInt(1, sa.getMemberCode());
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				return -1; // 강좌수 초과
+			} else {
+				psmt = conn.prepareStatement(sql2);
+				psmt.setInt(1, sa.getClassCode());
+				rs = psmt.executeQuery();
+				if(rs.next()) {
+					 num = rs.getInt("count");
+				}
+				
+				psmt = conn.prepareStatement(sql3);
+				psmt.setInt(1, sa.getClassCode());
+				rs = psmt.executeQuery();
+				if(rs.next()) {
+					if(num < rs.getInt("member_num")) {
+						psmt = conn.prepareStatement(sql4);
+						psmt.setInt(1, sa.getClassCode());
+						psmt.setInt(2, sa.getMemberCode());
 
-			psmt.executeUpdate();
-			System.out.println(sa.getMemberCode() + "회원이 " + sa.getClassCode() + " 강좌에 등록되었습니다.");
+						psmt.executeUpdate();
+						return -2; // 수강신청 완료.
+						
+					} else {
+						return -3; // 수강정원 초과.
+						
+					}
+				}
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
-		}
+		}return 1;
+	} 
+	
+	public int membernum(SwimApply sa) {
+		int num = 0;
+		conn = getConnect();
+		String sql = "select count(*) count\r\n"
+				+ "from apply "
+				+ "where class_code = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, sa.getClassCode());
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				 num = rs.getInt("count");
+				 return num;
+				 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}return num;
+		
 	}
-
 }

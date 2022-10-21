@@ -3,10 +3,10 @@ package swimprogram;
 public class SwimTeacher {
 	private int teacherCode;
 	private String teacherName;
-	private int classCode;
+	private String classCode;
 	private String memo;
 
-	public SwimTeacher(int teacherCode, String teacherName, int classCode, String memo) {
+	public SwimTeacher(int teacherCode, String teacherName, String classCode, String memo) {
 		this.teacherCode = teacherCode;
 		this.teacherName = teacherName;
 		this.classCode = classCode;
@@ -29,11 +29,11 @@ public class SwimTeacher {
 		this.teacherName = teacherName;
 	}
 
-	public int getClassCode() {
+	public String getClassCode() {
 		return classCode;
 	}
 
-	public void setClassCode(int classCode) {
+	public void setClassCode(String classCode) {
 		this.classCode = classCode;
 	}
 

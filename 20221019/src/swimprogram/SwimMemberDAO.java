@@ -54,7 +54,8 @@ public class SwimMemberDAO extends DAO {
 		String sql = "select * from swimmember" //
 				+ " where 	mem_code = decode(?, 0, mem_code, ?) "// ?값이 0이면 전체 출력하고 0이 아니면 ?값만 출력
 				+ " and		mem_name like '%'||?||'%' " //
-				+ "	and     mem_gender like ''%'||?||'%' ";
+				+ "	and     mem_gender like '%'||?||'%' "
+				+ " order by mem_code";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, sm.getMemberCode());
@@ -77,6 +78,8 @@ public class SwimMemberDAO extends DAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			disconnect();
 		}
 		return memberList;
 	}

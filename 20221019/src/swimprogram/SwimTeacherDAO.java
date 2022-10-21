@@ -13,7 +13,7 @@ public class SwimTeacherDAO extends DAO {
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, st.getTeacherName());
-			psmt.setInt(2, st.getClassCode());
+			psmt.setString(2, st.getClassCode());
 			psmt.setString(3, st.getMemo());
 
 			psmt.executeUpdate();
@@ -25,22 +25,50 @@ public class SwimTeacherDAO extends DAO {
 		}
 	}
 
-//강사목록조회
-	public List<SwimTeacher> list() {
+//강사수정
+	public void update(SwimTeacher st) {
 		conn = getConnect();
-		List<SwimTeacher> teacherList = new ArrayList<>();
-		String sql = "select * from swimteacher;";
+		String sql = "update swimteacher \r\n" //
+				+ "set class_code = ? , memo = ?"//
+				+ "where teacher_name = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, st.getClassCode());
+			psmt.setString(2, st.getMemo());
+			psmt.setString(3, st.getTeacherName());
+
+			psmt.executeUpdate();
+			System.out.println(st.getTeacherName() + " 강사가 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+
+//강사목록조회
+	public List<SwimTeacher> list(SwimTeacher st) {
+		conn = getConnect();
+		List<SwimTeacher> teacherList = new ArrayList<>();
+		String sql = "select * from swimteacher"//
+				+ " where teacher_name like '%'||?||'%' "//
+				+ " order by teacher_code";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, st.getTeacherName());
+
 			rs = psmt.executeQuery(); // rs에 쿼리 실행결과를 담아줌
 			while (rs.next()) { // rs의 값이 있으면 true, 없으면 false
 				teacherList.add(new SwimTeacher(rs.getInt("teacher_code")//
 						, rs.getString("teacher_name")//
-						, rs.getInt("class_code")//
+						, rs.getString("class_code")//
 						, rs.getString("memo")));
-			}
+			} 
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			disconnect();
 		}
 		return teacherList;
 	}
