@@ -117,7 +117,7 @@ public class EmpDAO extends DAO { // DAO붙으면 데이터베이스를 처리�
 		List<EmployeeVO> empList = new ArrayList<EmployeeVO>();
 		getConnect();
 		String sql = "select * from empl" //
-				+" where employee_id = decode(?, 0, employee_id, ?) "// ?값이 0이면 전체 출력하고 0이 아니면 ?값만 출력
+				+" where nvl(employee_id, 0) = decode(?, 0, nvl(employee_id, 0), ?) "// ?값이 0이면 전체 출력하고 0이 아니면 ?값만 출력
 				+" and	first_name like '%'||?||'%' "//
 				+" and 	last_name like '%'||?||'%' "//
 				+" and 	email like '%'||?||'%' "//

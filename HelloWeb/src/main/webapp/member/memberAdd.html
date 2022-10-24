@@ -6,7 +6,8 @@
 </head>
 <body>
     <!-- 사원번호, last_name, email, hire_date, job_id -->
-    <form action="../addMemberServlet">
+    <form action="../addMemberServlet" method="post"> 
+    <!-- post 요청방식 / 주소창에 데이터가 뜨지 않음 민감정보처리에 좋음 -->
         <label for="">사원번호
             <input type="text" name="employee_id" id="employee_id">
         </label><br>

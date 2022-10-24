@@ -31,6 +31,7 @@ public class AddMemberServ extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	// get 방식의 요청이 들어오면 doget메소드를 호출.
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -45,7 +46,7 @@ public class AddMemberServ extends HttpServlet {
 		String hireDate = request.getParameter("hire_date");
 		String jobId = request.getParameter("job_id");
 
-		System.out.println(fName + " "+lName + " " + email + " " + hireDate + " " + jobId);
+		System.out.println(fName + " " + lName + " " + email + " " + hireDate + " " + jobId);
 
 		// DB 입력.
 		EmpDAO dao = new EmpDAO();
@@ -60,7 +61,7 @@ public class AddMemberServ extends HttpServlet {
 				+ "성: " + emp.getLastName() + "<br>"//
 				+ "이메일: " + emp.getEmail() + "<br>"//
 				+ "입사일: " + emp.getHireDate() + "<br>"//
-				+ "직무: " + emp.getJobId() +"</p>"//
+				+ "직무: " + emp.getJobId() + "</p>"//
 		);
 	}
 
@@ -68,10 +69,14 @@ public class AddMemberServ extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	// post 방식의 요청이 들어오면 dopost메소드 호출됨.
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.setContentType("text/html;charset=UTF-8");
+//		doGet(request, response);
+		PrintWriter out = response.getWriter(); // 사용자의 브라우저(출력스트림 생성)
+		out.print("<h3>Post 방식의 요청</h3>");
 	}
 
 }
