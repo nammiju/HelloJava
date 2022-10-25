@@ -5,6 +5,7 @@ public class MemberVO {
 	private String passwd;
 	private String name;
 	private String email;
+	private String responsibility;
 
 	public MemberVO() {
 	}
@@ -48,9 +49,18 @@ public class MemberVO {
 		this.name = name;
 	}
 
+	public String getResponsibility() {
+		return responsibility;
+	}
+
+	public void setResponsibility(String responsibility) {
+		this.responsibility = responsibility;
+	}
+
 	@Override
 	public String toString() {
-		return "MemberVO [id=" + id + ", passwd=" + passwd + ", email=" + email + ", name=" + name + "]";
+		return "MemberVO [id=" + id + ", passwd=" + passwd + ", name=" + name + ", email=" + email + ", responsibility="
+				+ responsibility + "]";
 	}
 
 }
