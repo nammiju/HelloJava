@@ -1,10 +1,12 @@
 package co.edu.common;
 
+import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 
 //DB연결 Connection 객체 생성.
 public class DAO {
@@ -16,8 +18,19 @@ public class DAO {
 	// Connection 객체 반환하는 getConnect 메소드
 	public Connection getConnect() {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "nmj", "nmj");
+			
+			Properties prop = new Properties();
+			prop.load(new FileReader("C:/Temp/database.properties"));
+			String driver = prop.getProperty("driver");
+			String url = prop.getProperty("url");
+			String id = prop.getProperty("user");
+			String pass = prop.getProperty("passwd");
+			
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, id, pass);
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "nmj", "nmj");
+			
 			System.out.println("연결성공");
 
 		} catch (Exception e) {
