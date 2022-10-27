@@ -13,6 +13,33 @@
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <style>
+	       .pagination {
+		       display: inline-block;
+	      }
+	      .pagination a {
+	        color: black;
+	        float: left;
+	        padding: 8px 16px;
+	        text-decoration: none;
+	      } 
+	      .pagination a.active {
+	        background-color: #D1DAF4;
+	        color: white;
+	        border-radius: 5px;
+	      }
+	      .pagination a:hover:not(.active) {
+	        background-color: #ddd;
+  			border-radius: 5px;
+		  }
+		  
+		  <!-- 인풋버튼 꾸미기 -->
+		  #submit {
+		  background-color: #D1DAF4;
+		  color: white;
+		  }
+</style>
+        
     </head>
     <body>
         <div class="d-flex" id="wrapper">
