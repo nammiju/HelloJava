@@ -23,5 +23,16 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> memberList() {
 		return dao.memberList();
 	}
+	@Override
+	public MemberVO memberSearch(String id) {
+		return dao.memberSearch(id);
+	}
+	@Override
+	public void memberUpdate(MemberVO vo) {
+		//회원정보 수정
+		dao.memberUpdate(vo);
+	}
+	
+	
 
 }

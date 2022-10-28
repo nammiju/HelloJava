@@ -15,6 +15,8 @@ import co.edu.control.MainControl;
 import co.edu.control.MemberList;
 import co.edu.control.SearchBoard;
 import co.edu.control.logOut;
+import co.edu.control.passwdReConfirm;
+import co.edu.control.passwdReConfirmForm;
 import co.edu.control.signIn;
 import co.edu.control.signInForm;
 import co.edu.control.signUp;
@@ -59,6 +61,10 @@ public class FrontController extends HttpServlet {
 		controlList.put("/signInForm.do", new signInForm()); // 로그인 화면
 		controlList.put("/signIn.do", new signIn()); // 로그인 처리
 		controlList.put("/logOut.do", new logOut()); // 로그아웃
+		
+		//비밀번호 passwdReConfirmForm.do
+		controlList.put("/passwdReConfirmForm.do", new passwdReConfirmForm()); // 비번발송 화면
+		controlList.put("/passwdReConfirm.do", new passwdReConfirm()); // 비번발송처리
 	}
 	// 서블릿이 호출될때마다 실행될 service()
 	@Override

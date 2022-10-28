@@ -86,5 +86,50 @@ public class MemberDAO extends DAO{
 		return null;
 	}
 	
+	// 한건 조회
+	public MemberVO memberSearch(String id) {
+		getConnect();
+		MemberVO member = null;
+		String sql = "select * from members where id = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				MemberVO vo = new MemberVO();
+				String id1 = rs.getString("id");
+				String passwd = rs.getString("passwd");
+				String name = rs.getString("name");
+				String email = rs.getString("email");
+
+				member = new MemberVO(id1, passwd, name, email, null);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return member;
+	}
 	
+	// 수정
+	public void memberUpdate(MemberVO vo) {
+		getConnect();
+		String sql = "update members set passwd = ?, name =?, email=? where id=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getPasswd());
+			psmt.setString(2, vo.getName());
+			psmt.setString(3, vo.getEmail());
+			psmt.setString(4, vo.getId());
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 수정됨.");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
 }

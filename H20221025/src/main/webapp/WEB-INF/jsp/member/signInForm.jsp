@@ -15,7 +15,11 @@
 		
 		<input id="submit" type="submit" value="로그인" class="button">
 		<input type="reset" value="초기화" class="button"><br>
-	
 	</form>
+	
+	<a href="passwdReConfirmForm.do">비밀번호 찾기</a>
+	<!-- passwdReConfirmForm.jsp : 아이디를 입력하고 재전송버튼을 누르면 등록된 메일 주소로 변경된 비밀번호가 전송됨 
+		 passwdReConfirmForm.do  : 아이디를 받아서 이메일 정보로 메일을 발송.
+	-->
 </body>
 </html>
