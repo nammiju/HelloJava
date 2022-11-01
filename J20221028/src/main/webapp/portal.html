@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<form action="">
+		시도: <input type="text" id='sido'> <input type="submit" value='찾기'>
+	</form>
+	<div id="show">
+
+		<table border="1">
+			<thead>
+				<tr>
+					<th>센터id</th>
+					<th>센터명</th>
+					<th>연락처</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		let url =
+			'https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=284&returnType=json&serviceKey=U8FEpdtnPBi%2BHWUgbsx3rq6Br%2BSlSlG00z%2B4tM%2BH7s37NiRML3q2mJH%2Fgwc2c8BiNZujfGhAG7gtjPcBhLdaZA%3D%3D';
+
+		fetch(url)
+			.then(result => result.json()) // json -> object
+			.then(showList)
+			.catch(error => console.log(error));
+
+		function showList(result) {
+			console.log(result)
+			result.data.forEach(center => document.getElementById("list").append(makeTr(center)));
+		}
+
+		function makeTr(center) {
+			let tr = document.createElement('tr');
+			let fields = ['id', 'centerName', 'phoneNumber'];
+			for (let field of fields) {
+				let td = document.createElement('td');
+				let txt = document.createTextNode(center[field]);
+				td.append(txt);
+				tr.append(td);
+			}
+			return tr;
+		}
+		// 찾기
+		document.forms.onsubmit = searchFunc;
+
+		// function searchFunc() {
+		// 	let sido = document.getElementById('sido').value;
+		// 	if (showList(result).data.sido == sido) {
+		// 		console.log(sido);
+		// 		makeTr(center);
+				
+		// 	}
+
+		//	function searchList(result) {
+		//		result.data.sido.forEach(center => document.getElementById("list").append(makeTr(center)));
+		//	}
+		//}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>memberAdd.html</title>
+</head>
+<body>
+	<h3>회원등록페이지.</h3>
+	<form name="submitFrm" action="" method="post">
+		ID: <input type="text" id="id"><br>
+		PW: <input type="text" id="passwd"><br>
+		EMAIL: <input type="email" id="email"><br>
+		NAME: <input type="text" id="name"><br>
+		<input type="submit" value="등록">
+	</form>
+	<form name="secondFrm"></form>
+	
+	<script>
+		//document.forms.submitFrm.action = "../MemberListServlet"; // 경로지정
+		document.forms.submitFrm.action = "../index.html";
+		//submitFrm.method = 'get'; // document.forms. 를 생락해도 된다.
+		document.forms.submitFrm.onsubmit = function(e) {
+			e.preventDefault();
+			console.log('hhhh')
+			let id = document.getElementById('id').value;
+			let pw = document.getElementById('passwd').value;
+			let em = document.getElementById('email').value;
+			let nm = document.getElementById('name').value;
+			let check = id && pw && em && nm; // 자바스크립스에선 값이 있으면 true, 없거나 0, 공백이면 false
+			if(!check) { // 하나라도 false가 있다면
+				alert('필수항목입니다.')
+				return false; // false를 호출해야 다른 페이지로 넘어가지 않는다.
+			}
+			let data = 'id='+id+'&passwd='+pw+'&email='+em+'&name='+nm;
+			let ajax = new XMLHttpRequest();
+			ajax.open('post', '../MemberListServlet');
+			ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); 
+			// 폼값을 키, 밸류 형식으로 넘기겠다는 의미 
+			ajax.send(data); // 실제로 실행이 되는 부분
+			ajax.onload = function() { // ajax라는 객체에 onload이벤트가 실행되었을때 
+				console.log(ajax.responseText)
+				let data = JSON.parse(ajax.responseText);
+				let pTag = document.createElement('p');
+				pTag.textContent = '아이디: ' + data.id + ', 이름: ' + data.name;
+				
+				//document.forms.secondFrm.after(pTag);
+				secondFrm.after(pTag);
+			}
+			
+		}
+	</script>
+</body>
+</html>
