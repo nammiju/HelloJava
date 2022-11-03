@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My To Do List</title>
+</head>
+
+<body>
+    <div id="myDIV" class="header">
+        <h2 style="margin:5px">My To Do List</h2>
+        <input type="text" id="myInput" placeholder="Title..">
+        <span onclick="newElement()" class="addBtn" style="cursor:pointer;">Add</span>
+    </div>
+    <ul id="myUL">
+    </ul>
+    <script>
+        function newElement() {
+            let myInput = document.getElementById('myInput').value;
+
+            if (myInput != null) {
+                console.log(myInput)
+                // li
+                let ul = document.getElementById('myUL');
+                let li = document.createElement('li');
+                let litxt = document.createTextNode(myInput);
+
+                //span
+                let span = document.createElement('span');
+                let spantxt = document.createTextNode('X');
+
+                span.append(spantxt);
+                li.append(litxt);
+                li.append(span);
+                ul.append(li);
+
+                document.getElementById('myInput').value = '';
+                document.getElementById('myInput').focus();
+
+                spantxt.addEventListener('click', removeList);
+            }
+        }
+
+        function removeList() {
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //     let remove = document.getElementsByClassName('close');
+        //     for(let i=0; i < remove.length; i++){
+        //         remove[i].addEventListener("click", removeList);
+        //         }
+        //     }
+
+        // function removeList(){
+        //     let id = this.getAttribute("id");
+        //     itemList.splice(id, 1);
+        //     showList();
+        // }
+    </script>
+</body>
+
+</html>
